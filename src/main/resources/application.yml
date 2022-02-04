@@ -3,3 +3,9 @@ server:
     servlet:
         context-path: /tour-api
     port: 8080
+
+spring:
+    profiles:
+        active: dev
+    application:
+        name: tour-api
