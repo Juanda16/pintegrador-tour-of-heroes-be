@@ -6,6 +6,6 @@ server:
 
 spring:
     profiles:
-        active: dev
+        active: heroku
     application:
         name: tour-api

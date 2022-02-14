@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface  HeroRepository extends JpaRepository<Hero,Integer> {
     @Query("SELECT h FROM Hero h WHERE h.name LIKE %?1%"
-            + " OR h.id LIKE %?1%"
+
     )public List<Hero> search(String keyword);
 }
