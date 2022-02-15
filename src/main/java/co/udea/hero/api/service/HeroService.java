@@ -1,6 +1,7 @@
 package co.udea.hero.api.service;
 
 import co.udea.hero.api.exception.BusinessException;
+import co.udea.hero.api.exception.DataNotFoundException;
 import co.udea.hero.api.model.Hero;
 import co.udea.hero.api.repository.HeroRepository;
 import co.udea.hero.api.util.Messages;
@@ -37,10 +38,19 @@ public class HeroService {
         Optional<Hero> optionalHero = heroRepository.findById(id);
         if(!optionalHero.isPresent()){
             log.info("No se encuentra un heroe con ID:"+id);
-            throw new BusinessException(messages.get("exception.data_not_found.hero"));
+            throw new DataNotFoundException("Hero not found");
         }
         return optionalHero.get();
 
+    }
+
+    public Hero getHeroNo404(Integer id){
+        Optional<Hero> optionalHero = heroRepository.findById(id);
+        if(!optionalHero.isPresent()){
+            log.info("Undefined ID:"+id);
+            throw new DataNotFoundException("Hero not found");
+        }
+        return optionalHero.get();
     }
 
 
@@ -49,7 +59,7 @@ public class HeroService {
 
         boolean heroAlreadyExist = heroRepository.existsById(hero.getId());
 
-        if (heroAlreadyExist) return null;
+        if (!heroAlreadyExist) return null;
         return heroRepository.save(hero);
 
     }
@@ -65,6 +75,10 @@ public class HeroService {
 
         boolean heroAlreadyExist = heroRepository.existsById(hero.getId());
         if (heroAlreadyExist)heroRepository.delete(hero);
+        else{
+            log.info("Undefined ID:" + hero.getName());
+            throw new DataNotFoundException("Hero not found");
+        }
 
     }
 
